@@ -20,7 +20,7 @@ class Employee(models.Model):
 
     def save(self, *args, **kwargs):
         # Define the data to encode
-        qr_data = f"http://127.0.0.1:8000/api/scan/{self.employee_id}/"
+        qr_data = f"https://security-x37l.onrender.com/qr_scan/{self.employee_id}/"
         self.qr_code = create_qr_code(qr_data)
         super().save(*args, **kwargs)
 

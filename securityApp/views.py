@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Employee
 from .forms import QRRequestForm
 
@@ -32,3 +32,18 @@ def qr_code(request):
         'error': error
     })
 
+def qr_scan(request, code):
+    try:
+        employee = Employee.objects.get(employee_id=code)
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Access Granted',
+            'employee_name': employee.name
+        })
+
+    except Employee.DoesNotExist:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Invalid QR Code'
+        }, status=404)
